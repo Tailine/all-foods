@@ -5,4 +5,5 @@ export const colors = {
   white: "#ffffff",
   darkestGray: "#545C69",
   lightGray: "#F9FAF9",
+  error: "#ff5a59",
 };

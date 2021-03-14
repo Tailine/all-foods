@@ -6,6 +6,26 @@ import logo from "public/images/red-logo.svg";
 import { mediaQueries } from "../../styles/themes/mediaQueries";
 import { fonts } from "styles/themes/fonts";
 
+type Props = {
+  children: ReactNode;
+  title: string;
+};
+
+export function Authentication({ children, title }: Props) {
+  return (
+    <Section>
+      <div className="container">
+        <LogoSection>
+          <Image src={logo} width={74} height={66} />
+          <p className="brandName">all foods</p>
+        </LogoSection>
+        <Title>{title}</Title>
+        {children}
+      </div>
+    </Section>
+  );
+}
+
 const Section = styled.section`
   height: 100vh;
   width: 100vw;
@@ -62,23 +82,3 @@ const Title = styled.h2`
   font-weight: normal;
   text-align: center;
 `;
-
-type Props = {
-  children: ReactNode;
-  title: string;
-};
-
-export function Authentication({ children, title }: Props) {
-  return (
-    <Section>
-      <div className="container">
-        <LogoSection>
-          <Image src={logo} width={74} height={66} />
-          <p className="brandName">all foods</p>
-        </LogoSection>
-        <Title>{title}</Title>
-        {children}
-      </div>
-    </Section>
-  );
-}
