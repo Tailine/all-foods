@@ -1,6 +1,6 @@
 import { default as NextLink } from "next/link";
 import styled from "styled-components";
-import { colors } from "../../styles/themes/colors";
+import { colors } from "../styles/themes/colors";
 
 const StyledLink = styled.a`
   color: ${colors.yellow};

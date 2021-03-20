@@ -1,19 +1,19 @@
-import firebase from "firebase";
 import { NextApiRequest, NextApiResponse } from "next";
+import firebase from "config/firebase";
 
 export default async function (req: NextApiRequest, res: NextApiResponse) {
   const {method, body} = req;
   // return object with data or error??
   // { data?: T; error?: {statusCode: number, message: string} }
-console.log("REQUEST", req)
+
+
   switch(method) {
     case 'GET':
       // authenticate user
-      signIn(body.email, body.password);
+      // await signIn(body.email, body.password);
       break;
       case 'POST':
-        // create user
-        signUp(body.email, body.password)
+        await signUp(body.email, body.password);
       break;
   }
 }
@@ -21,8 +21,7 @@ console.log("REQUEST", req)
 async function signUp(email: string, password: string) {
   try {
     const credential = await firebase.auth().createUserWithEmailAndPassword(email, password);
-    console.log("credential", credential, "user", credential.user);
-
+    console.log("user", credential.user.toJSON());
   } catch(err) {
     console.error(err)
   }

@@ -1,29 +1,13 @@
 import Head from "next/head";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
-import { Authentication } from "./components/Authentication";
-import { Button } from "./components/Button";
-import { FormField } from "./components/FormField";
-import { Input } from "./components/Input";
-import { InputPassword } from "./components/InputPassword";
-import { Link } from "./components/Link";
-import { colors } from "styles/themes/colors";
-
-const Paragraph = styled.p`
-  text-align: center;
-  margin-top: 1em;
-  font-size: 0.7rem;
-`;
-
-const StyledButton = styled(Button)`
-  margin-top: 2em;
-`;
-
-const ErrorMessage = styled.p`
-  font-size: 0.7rem;
-  color: ${colors.error};
-  margin-top: 0.5em;
-`;
+import { Authentication } from "../components/Authentication";
+import { Button } from "../components/Button";
+import { FormField } from "../components/FormField";
+import { Input } from "../components/Input";
+import { InputPassword } from "../components/InputPassword";
+import { Link } from "../components/Link";
+import { colors } from "src/styles/themes/colors";
 
 type FormFields = {
   email: string;
@@ -34,23 +18,24 @@ export default function Login() {
   const { register, handleSubmit, errors } = useForm<FormFields>();
 
   async function onSubmit(values: FormFields) {
-    console.log("Values", values);
     const formData = new FormData();
     formData.append("email", values.email);
-    formData.append("password", values.email);
-    await fetch('/api/auth', {
+    formData.append("password", values.password);
+
+    await fetch('http://localhost:3000/api/auth', {
       method: 'POST',
-      body: formData
+      body: JSON.stringify({
+        email: values.email,
+        password: values.password
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
     })
   }
 
   return (
     <section>
-      <Head>
-        <title>All foods</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
       <form onSubmit={handleSubmit(onSubmit)}>
         <Authentication title="Welcome back!">
           <FormField label="Email" htmlFor="email">
@@ -83,3 +68,19 @@ export default function Login() {
     </section>
   );
 }
+
+const Paragraph = styled.p`
+  text-align: center;
+  margin-top: 1em;
+  font-size: 0.7rem;
+`;
+
+const StyledButton = styled(Button)`
+  margin-top: 2em;
+`;
+
+const ErrorMessage = styled.p`
+  font-size: 0.7rem;
+  color: ${colors.error};
+  margin-top: 0.5em;
+`;
