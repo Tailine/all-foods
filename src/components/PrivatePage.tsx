@@ -1,22 +1,22 @@
-import { NextComponentType } from "next";
-import { Component, ComponentType, ReactNode } from "react"
-import { useAuth } from '../hooks/useAuth';
-
+import {useRouter} from "next/router"
+import { ReactNode } from "react"
+import { useAuth } from "src/hooks/useAuth"
 interface Props {
   children: ReactNode
 }
 
 export default function PrivatePage({ children }: Props) {
 
-  const { user, signUp } = useAuth()
+  const router = useRouter()
+  const {user} = useAuth()
 
   if(!user) {
-    return <div>Loading...</div>
+    return <>{router.push('/')}</>
   }
 
   return (
     <div>
-    {children}
+      {children}
     </div>
   )
 }

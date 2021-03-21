@@ -1,4 +1,3 @@
-import Head from "next/head";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import { Authentication } from "../components/Authentication";
@@ -8,6 +7,8 @@ import { Input } from "../components/Input";
 import { InputPassword } from "../components/InputPassword";
 import { Link } from "../components/Link";
 import { colors } from "src/styles/themes/colors";
+import { useAuth } from 'src/hooks/useAuth';
+import { AuthenticationForm } from "src/components/AuthenticationForm";
 
 type FormFields = {
   email: string;
@@ -15,57 +16,53 @@ type FormFields = {
 };
 
 export default function Login() {
-  const { register, handleSubmit, errors } = useForm<FormFields>();
+  // const { register, handleSubmit, errors } = useForm<FormFields>();
+  const {signIn} = useAuth()
 
   async function onSubmit(values: FormFields) {
-    const formData = new FormData();
-    formData.append("email", values.email);
-    formData.append("password", values.password);
-
-    await fetch('http://localhost:3000/api/auth', {
-      method: 'POST',
-      body: JSON.stringify({
-        email: values.email,
-        password: values.password
-      }),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
+    signIn?.(values.email, values.password)
   }
 
   return (
-    <section>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Authentication title="Welcome back!">
-          <FormField label="Email" htmlFor="email">
-            <Input
-              hasError={!!errors.email}
-              name="email"
-              ref={register({ required: true })}
-              placeholder="Enter your email"
-            />
-            {errors.email && <ErrorMessage>Provide a valid email</ErrorMessage>}
-          </FormField>
-          <FormField label="Password" htmlFor="password">
-            <InputPassword
-              hasError={!!errors.password}
-              name="password"
-              ref={register({ required: true })}
-              placeholder="Enter your password"
-            />
-            {errors.password && <ErrorMessage>Fill this field</ErrorMessage>}
-          </FormField>
-          <StyledButton>Sign In</StyledButton>
-          <Paragraph>
-            Don't have an account? <Link text="Sign up" path="/singup" />
-          </Paragraph>
-          <Paragraph>
-            <Link text="Forgot password" path="" />
-          </Paragraph>
-        </Authentication>
-      </form>
-    </section>
+    <Authentication title="Welcome Back">
+      <AuthenticationForm buttonText="Sign In" onSubmit={onSubmit}>
+        <Paragraph>
+          Don't have an account? <Link text="Sign up" path="/signup" />
+        </Paragraph>
+        <Paragraph>
+          <Link text="Forgot password" path="" />
+        </Paragraph>
+      </AuthenticationForm>
+    </Authentication>
+    // <Authentication title="Welcome back!">
+    //   <form onSubmit={handleSubmit(onSubmit)}>
+    //     <FormField label="Email" htmlFor="email">
+    //       <Input
+    //         hasError={!!errors.email}
+    //         name="email"
+    //         ref={register({ required: true })}
+    //         placeholder="Enter your email"
+    //       />
+    //       {errors.email && <ErrorMessage>Provide a valid email</ErrorMessage>}
+    //     </FormField>
+    //     <FormField label="Password" htmlFor="password">
+    //       <InputPassword
+    //         hasError={!!errors.password}
+    //         name="password"
+    //         ref={register({ required: true })}
+    //         placeholder="Enter your password"
+    //       />
+    //       {errors.password && <ErrorMessage>Fill this field</ErrorMessage>}
+    //     </FormField>
+        // <StyledButton>Sign In</StyledButton>
+        // <Paragraph>
+        //   Don't have an account? <Link text="Sign up" path="/singup" />
+        // </Paragraph>
+        // <Paragraph>
+        //   <Link text="Forgot password" path="" />
+        // </Paragraph>
+    //   </form>
+    // </Authentication>
   );
 }
 
@@ -73,14 +70,4 @@ const Paragraph = styled.p`
   text-align: center;
   margin-top: 1em;
   font-size: 0.7rem;
-`;
-
-const StyledButton = styled(Button)`
-  margin-top: 2em;
-`;
-
-const ErrorMessage = styled.p`
-  font-size: 0.7rem;
-  color: ${colors.error};
-  margin-top: 0.5em;
 `;

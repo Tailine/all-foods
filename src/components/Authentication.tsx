@@ -1,12 +1,10 @@
 import Image from "next/image";
-import { ReactNode, useEffect } from "react";
+import { ReactNode } from "react";
 import styled from "styled-components";
 import { colors } from "../styles/themes/colors";
 import logo from "public/images/red-logo.svg";
 import { mediaQueries } from "../styles/themes/mediaQueries";
 import { fonts } from "src/styles/themes/fonts";
-import PrivatePage from './PrivatePage';
-import { AuthProvider, useAuth } from '../hooks/useAuth';
 
 type Props = {
   children: ReactNode;
@@ -15,34 +13,17 @@ type Props = {
 
 export function Authentication({ children, title }: Props) {
 
-  // const {user, signUp} = useAuth()
-  // console.log(user)
-
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     console.log("Dentro")
-  //     signUp?.("", "")
-  //   }, 3000)
-  // }, [])
-
-  // if(!!user) {
-  //   return <div>Loading...</div>
-  // }
-
   return (
-    <h1>Hello</h1>
-    // <PrivatePage>
-    // <Section>
-    //   <div className="container">
-    //     <LogoSection>
-    //       <Image src={logo} width={74} height={66} />
-    //       <p className="brandName">all foods</p>
-    //     </LogoSection>
-    //     <Title>{title}</Title>
-    //     {children}
-    //   </div>
-    // </Section>
-    // </PrivatePage>
+    <Section>
+      <div className="container">
+        <LogoSection>
+          <Image src={logo} width={74} height={66} />
+          <p className="brandName">all foods</p>
+        </LogoSection>
+        <Title>{title}</Title>
+        {children}
+      </div>
+    </Section>
   );
 }
 

@@ -1,45 +1,42 @@
-import { createContext, ReactNode, useContext, useMemo, useState } from "react";
-import firebase from 'config/firebase';
-
-interface AuthContextType {
+import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useState } from "react";
+import firebase from "config/firebase"
+interface ContextType {
   user?: firebase.User
   signUp?(email: string, password: string): void
   signIn?(email: string, password: string): void
   signOut?(): void
+  setUser?: Dispatch<SetStateAction<firebase.User>>
 }
 
-const AuthContext = createContext<AuthContextType>({})
+const AuthContext = createContext<ContextType>({});
 
-export function AuthProvider(children: {children: ReactNode}) {
-
-  const [user, setUser] = useState<any| null>(null);
+export function AuthProvider({children}: {children: ReactNode}) {
+  const [user, setUser] = useState<firebase.User | null>(null);
 
   async function signUp(email: string, password: string) {
     try {
-      // save token
-      // redirecionar para home
-      // const credential = await firebase.auth().createUserWithEmailAndPassword(email, password);
-      // console.log("user", credential.user.toJSON());
-      // localStorage.setItem("user", JSON.stringify(credential.user));
-      // setUser(credential.user);
-      setUser("testinho");
+      const credential = await firebase.auth().createUserWithEmailAndPassword(email, password);
+      console.log("user", credential.user.toJSON());
+      localStorage.setItem("user", JSON.stringify(credential.user))
+      setUser(credential.user)
     } catch (error) {
       console.error(error)
     }
   }
-  
+
   async function signIn(email: string, password: string) {
-    const credential = await firebase.auth().signInWithEmailAndPassword(email, password);
-    console.log("credential", credential.user.toJSON());
+    try {
+      const credential = await firebase.auth().signInWithEmailAndPassword(email, password)
+      setUser(credential.user)
+    } catch(err) {
+      console.error(err)
+    }
   }
 
-  function signOut() {
-    // signOut do firebase
-    // remover token
-  }
+  const value = {user, signIn, signUp}
 
   return (
-    <AuthContext.Provider value={{signUp, user}}>
+    <AuthContext.Provider value={value}>
       {children}
     </AuthContext.Provider>
   )

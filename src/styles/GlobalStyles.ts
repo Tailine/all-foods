@@ -1,10 +1,7 @@
 import { createGlobalStyle } from "styled-components";
 import { colors } from "./themes/colors";
-import { fonts } from "./themes/fonts";
 
 export const GlobalStyles = createGlobalStyle`
-  @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
-  @import url('https://fonts.googleapis.com/css2?family=Sriracha&display=swap');
 
   * {
     margin: 0;
@@ -13,7 +10,7 @@ export const GlobalStyles = createGlobalStyle`
   }
   
   body {
-    font-family: ${fonts.roboto};
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     color: ${colors.darkestGray}
   }
 `;
