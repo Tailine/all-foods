@@ -34,35 +34,6 @@ export default function Login() {
         </Paragraph>
       </AuthenticationForm>
     </Authentication>
-    // <Authentication title="Welcome back!">
-    //   <form onSubmit={handleSubmit(onSubmit)}>
-    //     <FormField label="Email" htmlFor="email">
-    //       <Input
-    //         hasError={!!errors.email}
-    //         name="email"
-    //         ref={register({ required: true })}
-    //         placeholder="Enter your email"
-    //       />
-    //       {errors.email && <ErrorMessage>Provide a valid email</ErrorMessage>}
-    //     </FormField>
-    //     <FormField label="Password" htmlFor="password">
-    //       <InputPassword
-    //         hasError={!!errors.password}
-    //         name="password"
-    //         ref={register({ required: true })}
-    //         placeholder="Enter your password"
-    //       />
-    //       {errors.password && <ErrorMessage>Fill this field</ErrorMessage>}
-    //     </FormField>
-        // <StyledButton>Sign In</StyledButton>
-        // <Paragraph>
-        //   Don't have an account? <Link text="Sign up" path="/singup" />
-        // </Paragraph>
-        // <Paragraph>
-        //   <Link text="Forgot password" path="" />
-        // </Paragraph>
-    //   </form>
-    // </Authentication>
   );
 }
 
