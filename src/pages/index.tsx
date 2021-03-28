@@ -1,14 +1,10 @@
-import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import { Authentication } from "../components/Authentication";
-import { Button } from "../components/Button";
-import { FormField } from "../components/FormField";
-import { Input } from "../components/Input";
-import { InputPassword } from "../components/InputPassword";
 import { Link } from "../components/Link";
-import { colors } from "src/styles/themes/colors";
 import { useAuth } from 'src/hooks/useAuth';
 import { AuthenticationForm } from "src/components/AuthenticationForm";
+import { useEffect } from "react";
+import { useRouter } from 'next/router';
 
 type FormFields = {
   email: string;
@@ -16,12 +12,18 @@ type FormFields = {
 };
 
 export default function Login() {
-  // const { register, handleSubmit, errors } = useForm<FormFields>();
-  const {signIn} = useAuth()
+  const {user, signIn} = useAuth()
+  const router = useRouter()
 
   async function onSubmit(values: FormFields) {
     signIn?.(values.email, values.password)
   }
+  
+  useEffect(() => {
+    if(user) {
+      router.push('/recipes')
+    }
+  }, [user])
 
   return (
     <Authentication title="Welcome Back">

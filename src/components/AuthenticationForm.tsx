@@ -4,7 +4,7 @@ import { Input } from "./Input";
 import { InputPassword } from "../components/InputPassword";
 import styled from "styled-components";
 import { Button } from "./Button";
-import { colors } from "src/styles/themes/colors";
+import colors from "src/styles/themes/colors";
 import { ReactNode } from "react";
 import { AuthFormFields } from "src/utils/types/interface";
 

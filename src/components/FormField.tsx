@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import styled from "styled-components";
-import { colors } from "src/styles/themes/colors";
+import colors from "src/styles/themes/colors";
 
 const FormFieldContainer = styled.div`
   display: flex;

@@ -1,4 +1,6 @@
-export const fonts = {
-  roboto: "Roboto",
-  sriracha: "Sriracha",
-};
+const fonts = {
+  roboto: 'Roboto',
+  sriracha: 'Sriracha',
+}
+
+export default fonts

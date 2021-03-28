@@ -1,10 +1,10 @@
 import Image from "next/image";
 import { ReactNode } from "react";
 import styled from "styled-components";
-import { colors } from "../styles/themes/colors";
+import colors from "../styles/themes/colors";
 import logo from "public/images/red-logo.svg";
 import { mediaQueries } from "../styles/themes/mediaQueries";
-import { fonts } from "src/styles/themes/fonts";
+import fonts from "src/styles/themes/fonts";
 
 type Props = {
   children: ReactNode;

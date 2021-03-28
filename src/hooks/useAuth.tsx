@@ -5,6 +5,7 @@ interface ContextType {
   signUp?(email: string, password: string): void
   signIn?(email: string, password: string): void
   signOut?(): void
+  isUserAuthenticated?(): boolean
   setUser?: Dispatch<SetStateAction<firebase.User>>
 }
 
@@ -20,20 +21,25 @@ export function AuthProvider({children}: {children: ReactNode}) {
       localStorage.setItem("user", JSON.stringify(credential.user))
       setUser(credential.user)
     } catch (error) {
-      console.error("error", error)
+      console.error(error)
     }
   }
 
   async function signIn(email: string, password: string) {
     try {
       const credential = await firebase.auth().signInWithEmailAndPassword(email, password)
+      localStorage.setItem("user", JSON.stringify(credential.user))
       setUser(credential.user)
     } catch(err) {
       console.error(err)
     }
   }
 
-  const value = {user, signIn, signUp}
+  function isUserAuthenticated() {
+    return !!(user || JSON.parse(localStorage.getItem("user")))
+  }
+ 
+  const value = { user, signIn, signUp, isUserAuthenticated }
 
   return (
     <AuthContext.Provider value={value}>

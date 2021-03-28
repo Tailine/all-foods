@@ -1,7 +1,7 @@
 import { InputProps } from "src/utils/types/interface";
 import { forwardRef, RefObject } from "react";
 import styled from "styled-components";
-import { colors } from "src/styles/themes/colors";
+import colors from "src/styles/themes/colors";
 
 const StyledInput = styled.input<{ hasError?: boolean }>`
   border: ${({ hasError }) =>

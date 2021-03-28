@@ -1,7 +1,7 @@
-import { ButtonHTMLAttributes, DetailedHTMLProps, RefObject } from "react";
+import { ButtonHTMLAttributes, DetailedHTMLProps, RefObject } from "react"
+import colors from "src/styles/themes/colors";
 import styled from "styled-components";
-import { colors } from "src/styles/themes/colors";
-import { fonts } from "../styles/themes/fonts";
+import fonts from "../styles/themes/fonts"
 
 const StyledButton = styled.button`
   background-color: ${colors.red};
