@@ -1,12 +1,13 @@
 import { useForm } from "react-hook-form";
 import { FormField } from "./FormField";
-import { Input } from "./Input";
+import { FormInput } from "./FormInput";
 import { InputPassword } from "../components/InputPassword";
 import styled from "styled-components";
 import { Button } from "./Button";
 import colors from "src/styles/themes/colors";
 import { ReactNode } from "react";
 import { AuthFormFields } from "src/utils/types/interface";
+import { ErrorMessage } from "src/styles/shared";
 
 type AuthenticationFormProps = {
   buttonText: string
@@ -20,7 +21,7 @@ export function AuthenticationForm({onSubmit, children, buttonText}: Authenticat
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <FormField label="Email" htmlFor="email">
-        <Input
+        <FormInput
           hasError={!!errors.email}
           name="email"
           ref={register({ required: true })}
@@ -46,10 +47,4 @@ export function AuthenticationForm({onSubmit, children, buttonText}: Authenticat
 const StyledButton = styled(Button)`
   margin-top: 2em;
   width: 100%;
-`;
-
-const ErrorMessage = styled.p`
-  font-size: 0.7rem;
-  color: ${colors.error};
-  margin-top: 0.5em;
 `;

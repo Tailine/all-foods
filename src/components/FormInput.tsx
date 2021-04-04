@@ -2,27 +2,17 @@ import { InputProps } from "src/utils/types/interface";
 import { forwardRef, RefObject } from "react";
 import styled from "styled-components";
 import colors from "src/styles/themes/colors";
+import { Input } from "src/styles/shared";
 
-const StyledInput = styled.input<{ hasError?: boolean }>`
+const StyledInput = styled(Input)<{ hasError?: boolean }>`
   border: ${({ hasError }) =>
     `1px solid ${hasError ? colors.error : colors.blueishGray}`};
-  border-radius: 0.25em;
-  width: 100%;
-  padding: 0.5em;
-  color: ${colors.blueishGray};
-  font-size: 0.8rem;
-  outline: 0;
-
-  &::placeholder {
-    color: ${colors.blueishGray};
-    font-size: 0.8em;
-  }
 `;
 
-const Input = forwardRef(
+const FormInput = forwardRef(
   ({ hasError, ...props }: InputProps, ref: RefObject<HTMLInputElement>) => {
     return <StyledInput hasError={hasError} ref={ref} {...props} />;
   }
 );
 
-export { Input };
+export { FormInput };

@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import Image from "next/image";
 import { forwardRef, RefObject, useState } from "react";
-import { Input } from "./Input";
+import { FormInput } from "./FormInput";
 import eyeClosed from "public/images/eye_closed.svg";
 import eyeOpen from "public/images/eye_open.svg";
 import { InputProps } from "src/utils/types/interface";
@@ -23,7 +23,7 @@ const InputPassword = forwardRef(
 
     return (
       <InputContainer>
-        <Input
+        <FormInput
           type={inputType}
           ref={ref as RefObject<HTMLInputElement>}
           {...props}
