@@ -1,4 +1,4 @@
-import { InputProps } from "src/utils/types/interface";
+import { InputProps } from "src/helpers/types/interface";
 import { forwardRef, RefObject } from "react";
 import styled from "styled-components";
 import colors from "src/styles/themes/colors";

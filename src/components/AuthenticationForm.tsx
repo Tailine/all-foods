@@ -6,7 +6,7 @@ import styled from "styled-components";
 import { Button } from "./Button";
 import colors from "src/styles/themes/colors";
 import { ReactNode } from "react";
-import { AuthFormFields } from "src/utils/types/interface";
+import { AuthFormFields } from "src/helpers/types/interface";
 import { ErrorMessage } from "src/styles/shared";
 
 type AuthenticationFormProps = {

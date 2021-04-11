@@ -14,4 +14,18 @@ export const GlobalStyles = createGlobalStyle`
     color: ${colors.darkestGray};
     overflow: hidden;
   }
+
+  button {
+    cursor: pointer;
+    border: 0;
+    text-transform: uppercase;
+    border-radius: 4px;
+    color: ${colors.white};
+    font-weight: bold;
+    padding: .5em;
+  }
+
+  p {
+    margin-bottom: 0;
+  }
 `;

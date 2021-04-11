@@ -1,7 +1,7 @@
 import { Authentication } from "src/components/Authentication";
 import { AuthenticationForm } from "src/components/AuthenticationForm";
 import { useAuth } from "src/hooks/useAuth";
-import { AuthFormFields } from "src/utils/types/interface";
+import { AuthFormFields } from "src/helpers/types/interface";
 import {Link} from "src/components/Link"
 import styled from "styled-components";
 import { useEffect } from 'react';

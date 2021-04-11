@@ -4,7 +4,7 @@ import { forwardRef, RefObject, useState } from "react";
 import { FormInput } from "./FormInput";
 import eyeClosed from "public/images/eye_closed.svg";
 import eyeOpen from "public/images/eye_open.svg";
-import { InputProps } from "src/utils/types/interface";
+import { InputProps } from "src/helpers/types/interface";
 
 type InputType = "password" | "text";
 

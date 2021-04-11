@@ -1,6 +1,5 @@
 import { ReactNode } from "react";
 import styled from "styled-components";
-import colors from "src/styles/themes/colors";
 
 const FormFieldContainer = styled.div`
   display: flex;
@@ -8,7 +7,7 @@ const FormFieldContainer = styled.div`
   margin-top: 1em;
 
   label {
-    font-size: 0.7rem;
+    font-size: 0.875rem;
     margin-bottom: 0.5em;
   }
 `;
