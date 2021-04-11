@@ -8,17 +8,18 @@ import styled, { css } from 'styled-components';
 import plus from 'public/images/plus.svg'
 import db from 'config/db';
 import { Cuisine } from 'src/helpers/types/api';
+import firebase from 'config/firebase'
 
 type FormData = {
   title: string
   ingredient: string
-  otherIngredients: {
+  otherIngredients?: {
     value: string
   }[]
   link?: string
   method: string
   cuisine: string
-  coverImage: string
+  coverImage: FileList
 }
 
 export default function NewRecipe() {
@@ -42,15 +43,46 @@ export default function NewRecipe() {
       setCuisines(cuisinesArr)
     })()
   }, [])
+
+  // function getImage() {
+  //   const storageRef = firebase.storage().ref()
+  //   const listRef = storageRef.child('images/')
+
+  //   listRef.listAll().then(res => {
+  //     console.log('res', res)
+  //     res.items.forEach(item => console.log(item))
+  //   })
+  // }
   
-  function addIngredient() {
+  async function uploadImage(imageFile: File) {
+    const ref = firebase.storage().ref()
+    const childRef = ref.child(`covers/${imageFile.name}`)
+
+    await childRef.put(imageFile)
   }
 
-  function submitForm(values: FormData) {
-    console.log('values', values)
-    // db.collection('recipes').add({
+  async function createRecipe(formValues: FormData, imageName: string) {
 
-    // })
+    db.collection('recipes').add({
+      title: formValues.title,
+      ingredient: formValues.ingredient,
+      otherIngredients: formValues.otherIngredients ?? null,
+      link: formValues.link ?? null,
+      method: formValues.method,
+      cuisine: formValues.cuisine,
+      coverImage: imageName
+    })
+  }
+  
+  async function submitForm(values: FormData) {
+    const file = values.coverImage.item(0)
+
+    try {
+      await uploadImage(file)
+      await createRecipe(values, file.name)
+    } catch(err) {
+      console.error(err)
+    }
   }
 
   function handleImageInput(fileList: FileList) {
@@ -61,13 +93,7 @@ export default function NewRecipe() {
     }
   }
 
-  /*
-    TODO
-    - display selected image
-    - save image
-    - save other data if image is saved
-    - make it possible to update image
-  */ 
+  const selectImageMsg = `${imageUrl ? 'update' : 'select'} cover image`
 
   return (
     <PrivatePage>
@@ -113,10 +139,11 @@ export default function NewRecipe() {
           </FormField>
           {errors.method && <ErrorMessage>This field is required</ErrorMessage>}
 
-          <FormField label='coverImage' htmlFor='coverImage'>
-            <ImageContainer>
-              <p>select a cover image</p>
-              <input onChange={(e) => handleImageInput(e.target.files)} type='file' id='coverImage' name='coverImage' accept='image/png' />
+          <FormField label='Image' htmlFor='coverImage'>
+            <ImageContainer hasImage={!!imageUrl}>
+              <button>{selectImageMsg}</button>
+              <input ref={register({ required: true })} onChange={(e) => handleImageInput(e.target.files)} type='file' id='coverImage' name='coverImage' accept='image/png' />
+              {imageUrl && <img src={imageUrl} alt='Selected cover image' />}
             </ImageContainer>
           </FormField>
 
@@ -140,9 +167,10 @@ const centerAbsolutePosition = css`
   left: 0;
   right: 0;
 `
-const ImageContainer = styled.div`
-  ${({ theme }) => css`
-    border: 2px dashed ${theme.colors.yellow};
+const ImageContainer = styled.div<{hasImage: boolean}>`
+  ${({ theme, hasImage }) => css`
+    border: 2px dashed ${theme.colors.blueishGray};
+    border-radius: 4px;
     padding: 1em;
     height: 100px;
     margin: 0 auto;
@@ -150,14 +178,19 @@ const ImageContainer = styled.div`
     position: relative;
     display: flex;
     align-items: center;
+    overflow: hidden;
 
-    p {
-      color: ${theme.colors.yellow};
+    img {
+      overflow: hidden;
+    }
+
+    button {
+      ${centerAbsolutePosition};
+      color: ${hasImage ? theme.colors.white : theme.colors.yellow};
       text-transform: uppercase;
       position: absolute;
-      cursor: pointer;
-      ${centerAbsolutePosition};
       text-align: center;
+      background-color: ${hasImage ? theme.colors.yellow : 'transparent'};
     }
 
     input[type='file'] {
