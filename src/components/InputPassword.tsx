@@ -1,25 +1,25 @@
-import styled from "styled-components";
-import Image from "next/image";
-import { forwardRef, RefObject, useState } from "react";
-import { FormInput } from "./FormInput";
-import eyeClosed from "public/images/eye_closed.svg";
-import eyeOpen from "public/images/eye_open.svg";
-import { InputProps } from "src/helpers/types/interface";
+import styled from 'styled-components'
+import Image from 'next/image'
+import { forwardRef, RefObject, useState } from 'react'
+import { FormInput } from './FormInput'
+import eyeClosed from 'public/images/eye_closed.svg'
+import eyeOpen from 'public/images/eye_open.svg'
+import { InputProps } from 'src/helpers/types/interface'
 
-type InputType = "password" | "text";
+type InputType = 'password' | 'text'
 
 const InputPassword = forwardRef(
   (props: InputProps, ref: RefObject<HTMLInputElement>) => {
-    const [inputType, setInputType] = useState<InputType>("password");
+    const [inputType, setInputType] = useState<InputType>('password')
 
     function handleDisplayPassword() {
-      if (inputType === "password") {
-        return setInputType("text");
+      if (inputType === 'password') {
+        return setInputType('text')
       }
-      setInputType("password");
+      setInputType('password')
     }
 
-    const eyeIcon = inputType === "password" ? eyeOpen : eyeClosed;
+    const eyeIcon = inputType === 'password' ? eyeOpen : eyeClosed
 
     return (
       <InputContainer>
@@ -32,21 +32,22 @@ const InputPassword = forwardRef(
           <Image layout="fill" src={eyeIcon} />
         </NextImageContainer>
       </InputContainer>
-    );
+    )
   }
-);
+)
 
-export { InputPassword };
+InputPassword.displayName = 'InputPassword'
+export { InputPassword }
 
 const InputContainer = styled.div`
   position: relative;
-`;
+`
 
 const NextImageContainer = styled.div<{ type: InputType }>`
   width: 27px;
-  height: ${({ type }) => (type === "password" ? "12px" : "16px")};
+  height: ${({ type }) => (type === 'password' ? '12px' : '16px')};
   position: absolute;
   right: 0.5em;
-  top: ${({ type }) => (type === "password" ? "10px" : "8px")};
+  top: ${({ type }) => (type === 'password' ? '10px' : '8px')};
   cursor: pointer;
-`;
+`

@@ -1,13 +1,13 @@
-import { useForm } from "react-hook-form";
-import { FormField } from "./FormField";
-import { FormInput } from "./FormInput";
-import { InputPassword } from "../components/InputPassword";
-import styled from "styled-components";
-import { Button } from "./Button";
-import colors from "src/styles/themes/colors";
-import { ReactNode } from "react";
-import { AuthFormFields } from "src/helpers/types/interface";
-import { ErrorMessage } from "src/styles/shared";
+import { useForm } from 'react-hook-form'
+import { FormField } from './FormField'
+import { FormInput } from './FormInput'
+import { InputPassword } from '../components/InputPassword'
+import styled from 'styled-components'
+import { Button } from './Button'
+import colors from 'src/styles/themes/colors'
+import { ReactNode } from 'react'
+import { AuthFormFields } from 'src/helpers/types/interface'
+import { ErrorMessage } from 'src/styles/shared'
 
 type AuthenticationFormProps = {
   buttonText: string
@@ -15,9 +15,13 @@ type AuthenticationFormProps = {
   onSubmit(values: AuthFormFields): void
 }
 
-export function AuthenticationForm({onSubmit, children, buttonText}: AuthenticationFormProps) {
-  const { register, handleSubmit, errors } = useForm<AuthFormFields>();
-  
+export function AuthenticationForm({
+  onSubmit,
+  children,
+  buttonText
+}: AuthenticationFormProps) {
+  const { register, handleSubmit, errors } = useForm<AuthFormFields>()
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <FormField label="Email" htmlFor="email">
@@ -47,4 +51,4 @@ export function AuthenticationForm({onSubmit, children, buttonText}: Authenticat
 const StyledButton = styled(Button)`
   margin-top: 2em;
   width: 100%;
-`;
+`

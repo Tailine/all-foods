@@ -1,9 +1,9 @@
-import { DetailedHTMLProps, InputHTMLAttributes } from "react";
+import { DetailedHTMLProps, InputHTMLAttributes } from 'react'
 
 export type InputProps = Omit<
   DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>,
-  "ref"
-> & { hasError?: boolean };
+  'ref'
+> & { hasError?: boolean }
 
 export interface AuthFormFields {
   email: string

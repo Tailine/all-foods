@@ -1,11 +1,11 @@
-import styled from "styled-components"
-import colors from 'src/styles/themes/colors';
-import fonts from 'src/styles/themes/fonts';
-import { mediaQueries } from 'src/styles/themes/mediaQueries';
+import styled from 'styled-components'
+import colors from 'src/styles/themes/colors'
+import fonts from 'src/styles/themes/fonts'
+import { mediaQueries } from 'src/styles/themes/mediaQueries'
 
 export const Aside = styled.aside`
   background-color: ${colors.red};
-  padding: .75em;
+  padding: 0.75em;
   position: fixed;
   bottom: 0;
   width: 100%;
@@ -19,7 +19,6 @@ export const Aside = styled.aside`
 `
 
 export const Logo = styled.div`
-
   display: none;
   color: ${colors.lightGray};
   font-family: ${fonts.sriracha};
@@ -48,7 +47,7 @@ export const Nav = styled.nav`
     display: flex;
     justify-content: space-around;
     align-items: center;
-    
+
     ${mediaQueries.md`
       padding: 0 1em;
       flex-direction: column;
@@ -57,12 +56,13 @@ export const Nav = styled.nav`
   }
 `
 
-export const Li = styled.li<{active: boolean}>`
+export const Li = styled.li<{ active: boolean }>`
   display: flex;
   align-items: center;
-  background-color: ${props => props.active ? `rgba(${colors.mediumGray}, .1)` : 'transparent'};
-  padding: ${props => props.active ? '0.3em 0.7em' : 0};
-  border-radius: .25em;
+  background-color: ${(props) =>
+    props.active ? `rgba(${colors.mediumGray}, .1)` : 'transparent'};
+  padding: ${(props) => (props.active ? '0.3em 0.7em' : 0)};
+  border-radius: 0.25em;
 
   flex-direction: column;
 
@@ -78,7 +78,7 @@ export const Li = styled.li<{active: boolean}>`
     text-decoration: none;
     color: ${colors.lightGray};
     font-weight: 500;
-    font-size: .875rem;
+    font-size: 0.875rem;
 
     ${mediaQueries.md`
       font-size: 1rem;
@@ -88,7 +88,7 @@ export const Li = styled.li<{active: boolean}>`
   img {
     width: 1em;
     height: 1em;
-    margin-bottom: .3em;
+    margin-bottom: 0.3em;
 
     ${mediaQueries.md`
       margin-bottom: 0;

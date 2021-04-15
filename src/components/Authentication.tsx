@@ -1,18 +1,17 @@
-import Image from "next/image";
-import { ReactNode } from "react";
-import styled from "styled-components";
-import colors from "../styles/themes/colors";
-import logo from "public/images/red-logo.svg";
-import { mediaQueries } from "../styles/themes/mediaQueries";
-import fonts from "src/styles/themes/fonts";
+import Image from 'next/image'
+import { ReactNode } from 'react'
+import styled from 'styled-components'
+import colors from '../styles/themes/colors'
+import logo from 'public/images/red-logo.svg'
+import { mediaQueries } from '../styles/themes/mediaQueries'
+import fonts from 'src/styles/themes/fonts'
 
 type Props = {
-  children: ReactNode;
-  title: string;
-};
+  children: ReactNode
+  title: string
+}
 
 export function Authentication({ children, title }: Props) {
-
   return (
     <Section>
       <div className="container">
@@ -24,7 +23,7 @@ export function Authentication({ children, title }: Props) {
         {children}
       </div>
     </Section>
-  );
+  )
 }
 
 const Section = styled.section`
@@ -60,7 +59,7 @@ const Section = styled.section`
       padding: 2em 3em;
     `}
   }
-`;
+`
 
 const LogoSection = styled.div`
   display: flex;
@@ -75,11 +74,11 @@ const LogoSection = styled.div`
     font-size: 1.5rem;
     text-align: center;
   }
-`;
+`
 
 const Title = styled.h2`
   color: ${colors.yellow};
   font-family: ${fonts.sriracha};
   font-weight: normal;
   text-align: center;
-`;
+`

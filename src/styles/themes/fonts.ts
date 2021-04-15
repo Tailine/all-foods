@@ -1,6 +1,6 @@
 const fonts = {
   roboto: 'Roboto',
-  sriracha: 'Sriracha',
+  sriracha: 'Sriracha'
 }
 
 export default fonts

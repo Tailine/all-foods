@@ -1,13 +1,13 @@
-import { useState, useEffect } from 'react';
-import { useFieldArray, useForm } from 'react-hook-form';
-import { FormField } from 'src/components/FormField';
-import { FormInput } from 'src/components/FormInput';
-import PrivatePage from 'src/components/PrivatePage';
-import { Heading, ErrorMessage, Input, TextArea } from 'src/styles/shared';
-import styled, { css } from 'styled-components';
+import { useState, useEffect } from 'react'
+import { useFieldArray, useForm } from 'react-hook-form'
+import { FormField } from 'src/components/FormField'
+import { FormInput } from 'src/components/FormInput'
+import PrivatePage from 'src/components/PrivatePage'
+import { Heading, ErrorMessage, Input, TextArea } from 'src/styles/shared'
+import styled, { css } from 'styled-components'
 import plus from 'public/images/plus.svg'
-import db from 'config/db';
-import { Cuisine } from 'src/helpers/types/api';
+import db from 'config/db'
+import { Cuisine } from 'src/helpers/types/api'
 import firebase from 'config/firebase'
 
 type FormData = {
@@ -23,9 +23,16 @@ type FormData = {
 }
 
 export default function NewRecipe() {
-  const [cuisines, setCuisines] = useState<Cuisine[]>([]);
-  const [imageUrl, setImageUrl] = useState('');
-  const { register, handleSubmit, setValue, getValues, errors, control } = useForm<FormData>({
+  const [cuisines, setCuisines] = useState<Cuisine[]>([])
+  const [imageUrl, setImageUrl] = useState('')
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    getValues,
+    errors,
+    control
+  } = useForm<FormData>({
     reValidateMode: 'onSubmit'
   })
   const { fields, append, remove } = useFieldArray({
@@ -34,11 +41,13 @@ export default function NewRecipe() {
   })
 
   useEffect(() => {
-    (async () => {
+    ;(async () => {
       const cuisinesArr = []
 
-      await db.collection('cuisine').get()
-      .then(docs => docs.forEach(doc => cuisinesArr.push(doc.data())))
+      await db
+        .collection('cuisine')
+        .get()
+        .then((docs) => docs.forEach((doc) => cuisinesArr.push(doc.data())))
 
       setCuisines(cuisinesArr)
     })()
@@ -53,7 +62,7 @@ export default function NewRecipe() {
   //     res.items.forEach(item => console.log(item))
   //   })
   // }
-  
+
   async function uploadImage(imageFile: File) {
     const ref = firebase.storage().ref()
     const childRef = ref.child(`covers/${imageFile.name}`)
@@ -62,7 +71,6 @@ export default function NewRecipe() {
   }
 
   async function createRecipe(formValues: FormData, imageName: string) {
-
     db.collection('recipes').add({
       title: formValues.title,
       ingredient: formValues.ingredient,
@@ -73,21 +81,21 @@ export default function NewRecipe() {
       coverImage: imageName
     })
   }
-  
+
   async function submitForm(values: FormData) {
     const file = values.coverImage.item(0)
 
     try {
       await uploadImage(file)
       await createRecipe(values, file.name)
-    } catch(err) {
+    } catch (err) {
       console.error(err)
     }
   }
 
   function handleImageInput(fileList: FileList) {
-    if(fileList) {
-      const file = fileList.item(0);
+    if (fileList) {
+      const file = fileList.item(0)
       const url = URL.createObjectURL(file)
       setImageUrl(url)
     }
@@ -101,16 +109,26 @@ export default function NewRecipe() {
         <Heading>New Recipes</Heading>
         <form onSubmit={handleSubmit(submitForm)}>
           <FormField label="Title" htmlFor="title">
-            <FormInput name="title" ref={register({ required: true })} placeholder="Ex: Turkey Tetrazzini" />
+            <FormInput
+              name="title"
+              ref={register({ required: true })}
+              placeholder="Ex: Turkey Tetrazzini"
+            />
           </FormField>
           {errors.title && <ErrorMessage>This field is required</ErrorMessage>}
 
           <FormField label="Ingredients" htmlFor="ingredient">
-            <FormInput name="ingredient" ref={register({ required: true })} placeholder="Ex: Cheese" />
+            <FormInput
+              name="ingredient"
+              ref={register({ required: true })}
+              placeholder="Ex: Cheese"
+            />
           </FormField>
-          {errors.ingredient && <ErrorMessage>This field is required</ErrorMessage>}
-          
-          <AddButton type='button' onClick={append}>
+          {errors.ingredient && (
+            <ErrorMessage>This field is required</ErrorMessage>
+          )}
+
+          <AddButton type="button" onClick={append}>
             add another ingredient
           </AddButton>
 
@@ -122,41 +140,72 @@ export default function NewRecipe() {
                   ref={register({ required: true })}
                   defaultValue={field.value}
                 />
-                <ButtonRemove type='button' onClick={() => remove(index)}>
+                <ButtonRemove type="button" onClick={() => remove(index)}>
                   <Line />
                 </ButtonRemove>
               </ListItem>
             ))}
           </ul>
-          {errors.otherIngredients && <ErrorMessage>This field is required</ErrorMessage>}
+          {errors.otherIngredients && (
+            <ErrorMessage>This field is required</ErrorMessage>
+          )}
 
           <FormField label="Link" htmlFor="link">
-            <FormInput name="link" ref={register} placeholder="Ex: https://www.allrecipes.com/recipes/16817/main..." />
+            <FormInput
+              name="link"
+              ref={register}
+              placeholder="Ex: https://www.allrecipes.com/recipes/16817/main..."
+            />
           </FormField>
 
           <FormField label="Method" htmlFor="title">
-            <TextArea name="method" ref={register({ required: true })} placeholder="Ex: Cut the onion..." rows={5} />
+            <TextArea
+              name="method"
+              ref={register({ required: true })}
+              placeholder="Ex: Cut the onion..."
+              rows={5}
+            />
           </FormField>
           {errors.method && <ErrorMessage>This field is required</ErrorMessage>}
 
-          <FormField label='Image' htmlFor='coverImage'>
+          <FormField label="Image" htmlFor="coverImage">
             <ImageContainer hasImage={!!imageUrl}>
               <button>{selectImageMsg}</button>
-              <input ref={register({ required: true })} onChange={(e) => handleImageInput(e.target.files)} type='file' id='coverImage' name='coverImage' accept='image/png' />
-              {imageUrl && <img src={imageUrl} alt='Selected cover image' />}
+              <input
+                ref={register({ required: true })}
+                onChange={(e) => handleImageInput(e.target.files)}
+                type="file"
+                id="coverImage"
+                name="coverImage"
+                accept="image/png"
+              />
+              {imageUrl && <img src={imageUrl} alt="Selected cover image" />}
             </ImageContainer>
           </FormField>
 
           <FormField label="Cuisine" htmlFor="cuisine">
-            <select name="cuisine" ref={register({ required: true, validate: value => value !== 'none' })} placeholder="">
-              <option key='none' value='none'>Select a cuisine</option>
-              {cuisines.map(cuisine => <option key={cuisine.id} value={cuisine.id} >{cuisine.name}</option>)}
+            <select
+              name="cuisine"
+              ref={register({
+                required: true,
+                validate: (value) => value !== 'none'
+              })}
+              placeholder=""
+            >
+              <option key="none" value="none">
+                Select a cuisine
+              </option>
+              {cuisines.map((cuisine) => (
+                <option key={cuisine.id} value={cuisine.id}>
+                  {cuisine.name}
+                </option>
+              ))}
             </select>
           </FormField>
-          
-          <ButtonSubmit type='submit'>create</ButtonSubmit>
+
+          <ButtonSubmit type="submit">create</ButtonSubmit>
         </form>
-      </section>  
+      </section>
     </PrivatePage>
   )
 }
@@ -167,7 +216,7 @@ const centerAbsolutePosition = css`
   left: 0;
   right: 0;
 `
-const ImageContainer = styled.div<{hasImage: boolean}>`
+const ImageContainer = styled.div<{ hasImage: boolean }>`
   ${({ theme, hasImage }) => css`
     border: 2px dashed ${theme.colors.blueishGray};
     border-radius: 4px;
@@ -203,12 +252,12 @@ const ImageContainer = styled.div<{hasImage: boolean}>`
 `
 
 const AddButton = styled.button`
-  ${({theme}) => css`
+  ${({ theme }) => css`
     width: 100%;
     color: ${theme.colors.white};
     background-color: ${theme.colors.yellow};
     border-radius: 4px;
-    padding: .5em;
+    padding: 0.5em;
     text-transform: uppercase;
     font-weight: bold;
     margin-top: 1em;
@@ -216,15 +265,15 @@ const AddButton = styled.button`
 `
 
 const ListItem = styled.li`
-  ${({ theme }) => css`  
+  ${({ theme }) => css`
     list-style: none;
     position: relative;
-    padding-left: .7em;
+    padding-left: 0.7em;
     width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin: .5em 0;
+    margin: 0.5em 0;
 
     &:before {
       content: '';
@@ -234,7 +283,7 @@ const ListItem = styled.li`
       position: absolute;
       left: 0;
       border-radius: 50%;
-      top: .7em;
+      top: 0.7em;
     }
   `}
 `
@@ -244,11 +293,11 @@ const ButtonRemove = styled.button`
     border: 0;
     border-radius: 50%;
     background-color: ${theme.colors.yellow};
-    padding: .8em .5em;
-    margin-left: .5em;
+    padding: 0.8em 0.5em;
+    margin-left: 0.5em;
   `}
 `
- 
+
 const StyledInput = styled.input`
   display: none;
 `
@@ -262,7 +311,7 @@ const Line = styled.div`
 `
 
 const ButtonSubmit = styled.button`
-  ${({ theme })=> css`
+  ${({ theme }) => css`
     background-color: ${theme.colors.red};
     width: 100%;
     margin-top: 1em;

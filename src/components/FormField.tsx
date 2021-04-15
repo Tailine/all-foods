@@ -1,5 +1,5 @@
-import { ReactNode } from "react";
-import styled from "styled-components";
+import { ReactNode } from 'react'
+import styled from 'styled-components'
 
 const FormFieldContainer = styled.div`
   display: flex;
@@ -10,13 +10,13 @@ const FormFieldContainer = styled.div`
     font-size: 0.875rem;
     margin-bottom: 0.5em;
   }
-`;
+`
 
 type Props = {
-  label: string;
-  htmlFor: string;
-  children: ReactNode;
-};
+  label: string
+  htmlFor: string
+  children: ReactNode
+}
 
 export function FormField({ label, htmlFor, children }: Props) {
   return (
@@ -24,5 +24,5 @@ export function FormField({ label, htmlFor, children }: Props) {
       <label htmlFor={htmlFor}>{label}:</label>
       {children}
     </FormFieldContainer>
-  );
+  )
 }

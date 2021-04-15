@@ -1,19 +1,83 @@
-import PrivatePage from "src/components/PrivatePage"
-import { Sidebar } from "src/components/Sidebar/Sidebar"
-import styled from "styled-components"
+import PrivatePage from 'src/components/PrivatePage'
+import { Sidebar } from 'src/components/Sidebar/Sidebar'
+import styled from 'styled-components'
 
 export default function Recipes() {
-  return(
+  return (
     <PrivatePage>
       <h1>Recipes</h1>
-        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatem quo dolorum nostrum nihil, ad omnis animi quam doloremque ipsa sed tempore minus eveniet reprehenderit reiciendis. Odit molestias ut voluptate voluptates.Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatem quo dolorum nostrum nihil, ad omnis animi quam doloremque ipsa sed tempore minus eveniet reprehenderit reiciendis. Odit molestias ut voluptate voluptates.</p>
-        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatem quo dolorum nostrum nihil, ad omnis animi quam doloremque ipsa sed tempore minus eveniet reprehenderit reiciendis. Odit molestias ut voluptate voluptates.Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatem quo dolorum nostrum nihil, ad omnis animi quam doloremque ipsa sed tempore minus eveniet reprehenderit reiciendis. Odit molestias ut voluptate voluptates.</p>
-        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatem quo dolorum nostrum nihil, ad omnis animi quam doloremque ipsa sed tempore minus eveniet reprehenderit reiciendis. Odit molestias ut voluptate voluptates.Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatem quo dolorum nostrum nihil, ad omnis animi quam doloremque ipsa sed tempore minus eveniet reprehenderit reiciendis. Odit molestias ut voluptate voluptates.</p>
-        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatem quo dolorum nostrum nihil, ad omnis animi quam doloremque ipsa sed tempore minus eveniet reprehenderit reiciendis. Odit molestias ut voluptate voluptates.Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatem quo dolorum nostrum nihil, ad omnis animi quam doloremque ipsa sed tempore minus eveniet reprehenderit reiciendis. Odit molestias ut voluptate voluptates.</p>
-        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatem quo dolorum nostrum nihil, ad omnis animi quam doloremque ipsa sed tempore minus eveniet reprehenderit reiciendis. Odit molestias ut voluptate voluptates.Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatem quo dolorum nostrum nihil, ad omnis animi quam doloremque ipsa sed tempore minus eveniet reprehenderit reiciendis. Odit molestias ut voluptate voluptates.</p>
-        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatem quo dolorum nostrum nihil, ad omnis animi quam doloremque ipsa sed tempore minus eveniet reprehenderit reiciendis. Odit molestias ut voluptate voluptates.Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatem quo dolorum nostrum nihil, ad omnis animi quam doloremque ipsa sed tempore minus eveniet reprehenderit reiciendis. Odit molestias ut voluptate voluptates.</p>
-        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatem quo dolorum nostrum nihil, ad omnis animi quam doloremque ipsa sed tempore minus eveniet reprehenderit reiciendis. Odit molestias ut voluptate voluptates.Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatem quo dolorum nostrum nihil, ad omnis animi quam doloremque ipsa sed tempore minus eveniet reprehenderit reiciendis. Odit molestias ut voluptate voluptates.</p>
-        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatem quo dolorum nostrum nihil, ad omnis animi quam doloremque ipsa sed tempore minus eveniet reprehenderit reiciendis. Odit molestias ut voluptate voluptates.Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatem quo dolorum nostrum nihil, ad omnis animi quam doloremque ipsa sed tempore minus eveniet reprehenderit reiciendis. Odit molestias ut voluptate voluptates.</p>
+      <p>
+        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatem quo
+        dolorum nostrum nihil, ad omnis animi quam doloremque ipsa sed tempore
+        minus eveniet reprehenderit reiciendis. Odit molestias ut voluptate
+        voluptates.Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+        Voluptatem quo dolorum nostrum nihil, ad omnis animi quam doloremque
+        ipsa sed tempore minus eveniet reprehenderit reiciendis. Odit molestias
+        ut voluptate voluptates.
+      </p>
+      <p>
+        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatem quo
+        dolorum nostrum nihil, ad omnis animi quam doloremque ipsa sed tempore
+        minus eveniet reprehenderit reiciendis. Odit molestias ut voluptate
+        voluptates.Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+        Voluptatem quo dolorum nostrum nihil, ad omnis animi quam doloremque
+        ipsa sed tempore minus eveniet reprehenderit reiciendis. Odit molestias
+        ut voluptate voluptates.
+      </p>
+      <p>
+        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatem quo
+        dolorum nostrum nihil, ad omnis animi quam doloremque ipsa sed tempore
+        minus eveniet reprehenderit reiciendis. Odit molestias ut voluptate
+        voluptates.Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+        Voluptatem quo dolorum nostrum nihil, ad omnis animi quam doloremque
+        ipsa sed tempore minus eveniet reprehenderit reiciendis. Odit molestias
+        ut voluptate voluptates.
+      </p>
+      <p>
+        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatem quo
+        dolorum nostrum nihil, ad omnis animi quam doloremque ipsa sed tempore
+        minus eveniet reprehenderit reiciendis. Odit molestias ut voluptate
+        voluptates.Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+        Voluptatem quo dolorum nostrum nihil, ad omnis animi quam doloremque
+        ipsa sed tempore minus eveniet reprehenderit reiciendis. Odit molestias
+        ut voluptate voluptates.
+      </p>
+      <p>
+        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatem quo
+        dolorum nostrum nihil, ad omnis animi quam doloremque ipsa sed tempore
+        minus eveniet reprehenderit reiciendis. Odit molestias ut voluptate
+        voluptates.Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+        Voluptatem quo dolorum nostrum nihil, ad omnis animi quam doloremque
+        ipsa sed tempore minus eveniet reprehenderit reiciendis. Odit molestias
+        ut voluptate voluptates.
+      </p>
+      <p>
+        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatem quo
+        dolorum nostrum nihil, ad omnis animi quam doloremque ipsa sed tempore
+        minus eveniet reprehenderit reiciendis. Odit molestias ut voluptate
+        voluptates.Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+        Voluptatem quo dolorum nostrum nihil, ad omnis animi quam doloremque
+        ipsa sed tempore minus eveniet reprehenderit reiciendis. Odit molestias
+        ut voluptate voluptates.
+      </p>
+      <p>
+        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatem quo
+        dolorum nostrum nihil, ad omnis animi quam doloremque ipsa sed tempore
+        minus eveniet reprehenderit reiciendis. Odit molestias ut voluptate
+        voluptates.Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+        Voluptatem quo dolorum nostrum nihil, ad omnis animi quam doloremque
+        ipsa sed tempore minus eveniet reprehenderit reiciendis. Odit molestias
+        ut voluptate voluptates.
+      </p>
+      <p>
+        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatem quo
+        dolorum nostrum nihil, ad omnis animi quam doloremque ipsa sed tempore
+        minus eveniet reprehenderit reiciendis. Odit molestias ut voluptate
+        voluptates.Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+        Voluptatem quo dolorum nostrum nihil, ad omnis animi quam doloremque
+        ipsa sed tempore minus eveniet reprehenderit reiciendis. Odit molestias
+        ut voluptate voluptates.
+      </p>
     </PrivatePage>
   )
 }

@@ -1,5 +1,12 @@
-import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useState } from "react";
-import firebase from "config/firebase"
+import {
+  createContext,
+  Dispatch,
+  ReactNode,
+  SetStateAction,
+  useContext,
+  useState
+} from 'react'
+import firebase from 'config/firebase'
 interface ContextType {
   user?: firebase.User
   signUp?(email: string, password: string): void
@@ -9,16 +16,18 @@ interface ContextType {
   setUser?: Dispatch<SetStateAction<firebase.User>>
 }
 
-const AuthContext = createContext<ContextType>({});
+const AuthContext = createContext<ContextType>({})
 
-export function AuthProvider({children}: {children: ReactNode}) {
-  const [user, setUser] = useState<firebase.User | null>(null);
+export function AuthProvider({ children }: { children: ReactNode }) {
+  const [user, setUser] = useState<firebase.User | null>(null)
 
   async function signUp(email: string, password: string) {
     try {
-      const credential = await firebase.auth().createUserWithEmailAndPassword(email, password);
-      console.log("user", credential.user.toJSON());
-      localStorage.setItem("user", JSON.stringify(credential.user))
+      const credential = await firebase
+        .auth()
+        .createUserWithEmailAndPassword(email, password)
+      console.log('user', credential.user.toJSON())
+      localStorage.setItem('user', JSON.stringify(credential.user))
       setUser(credential.user)
     } catch (error) {
       console.error(error)
@@ -27,25 +36,23 @@ export function AuthProvider({children}: {children: ReactNode}) {
 
   async function signIn(email: string, password: string) {
     try {
-      const credential = await firebase.auth().signInWithEmailAndPassword(email, password)
-      localStorage.setItem("user", JSON.stringify(credential.user))
+      const credential = await firebase
+        .auth()
+        .signInWithEmailAndPassword(email, password)
+      localStorage.setItem('user', JSON.stringify(credential.user))
       setUser(credential.user)
-    } catch(err) {
+    } catch (err) {
       console.error(err)
     }
   }
 
   function isUserAuthenticated() {
-    return !!(user || JSON.parse(localStorage.getItem("user")))
+    return !!(user || JSON.parse(localStorage.getItem('user')))
   }
- 
+
   const value = { user, signIn, signUp, isUserAuthenticated }
 
-  return (
-    <AuthContext.Provider value={value}>
-      {children}
-    </AuthContext.Provider>
-  )
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }
 
 export function useAuth() {

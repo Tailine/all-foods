@@ -1,7 +1,7 @@
-import { ButtonHTMLAttributes, DetailedHTMLProps, RefObject } from "react"
-import colors from "src/styles/themes/colors";
-import styled from "styled-components";
-import fonts from "../styles/themes/fonts"
+import { ButtonHTMLAttributes, DetailedHTMLProps, RefObject } from 'react'
+import colors from 'src/styles/themes/colors'
+import styled from 'styled-components'
+import fonts from '../styles/themes/fonts'
 
 const StyledButton = styled.button`
   background-color: ${colors.red};
@@ -14,7 +14,7 @@ const StyledButton = styled.button`
   font-family: ${fonts.roboto};
   font-weight: bold;
   cursor: pointer;
-`;
+`
 
 export function Button({
   ref,
@@ -23,5 +23,5 @@ export function Button({
   ButtonHTMLAttributes<HTMLButtonElement>,
   HTMLButtonElement
 >) {
-  return <StyledButton ref={ref as RefObject<HTMLInputElement>} {...rest} />;
+  return <StyledButton ref={ref as RefObject<HTMLInputElement>} {...rest} />
 }

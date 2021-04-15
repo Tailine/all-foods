@@ -1,19 +1,18 @@
-import {useRouter} from "next/router"
-import { ReactNode } from "react"
-import { useAuth } from "src/hooks/useAuth"
+import { useRouter } from 'next/router'
+import { ReactNode } from 'react'
+import { useAuth } from 'src/hooks/useAuth'
 import { Sidebar } from 'src/components/Sidebar/Sidebar'
-import styled from "styled-components"
-import { mediaQueries } from '../styles/themes/mediaQueries';
+import styled from 'styled-components'
+import { mediaQueries } from '../styles/themes/mediaQueries'
 interface Props {
   children: ReactNode
 }
 
 export default function PrivatePage({ children }: Props) {
-
   const router = useRouter()
-  const {isUserAuthenticated} = useAuth()
+  const { isUserAuthenticated } = useAuth()
 
-  if(!isUserAuthenticated) {
+  if (!isUserAuthenticated) {
     return <>{router.push('/')}</>
   }
 
@@ -22,9 +21,7 @@ export default function PrivatePage({ children }: Props) {
   return (
     <Wrapper>
       <Sidebar currentPathName={pathName} />
-      <Main>
-        {children}
-      </Main>
+      <Main>{children}</Main>
     </Wrapper>
   )
 }
