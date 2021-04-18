@@ -4,6 +4,7 @@ import {
   ReactNode,
   SetStateAction,
   useContext,
+  useEffect,
   useState
 } from 'react'
 import firebase from 'config/firebase'
@@ -20,6 +21,13 @@ const AuthContext = createContext<ContextType>({})
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<firebase.User | null>(null)
+
+  useEffect(() => {
+    const localStorageUser = JSON.parse(localStorage.getItem('user'))
+    if (localStorageUser) {
+      setUser(localStorageUser as firebase.User)
+    }
+  }, [])
 
   async function signUp(email: string, password: string) {
     try {

@@ -9,6 +9,7 @@ import plus from 'public/images/plus.svg'
 import db from 'config/db'
 import { Cuisine } from 'src/helpers/types/api'
 import firebase from 'config/firebase'
+import { useAuth } from 'src/hooks/useAuth'
 
 type FormData = {
   title: string
@@ -25,6 +26,7 @@ type FormData = {
 export default function NewRecipe() {
   const [cuisines, setCuisines] = useState<Cuisine[]>([])
   const [imageUrl, setImageUrl] = useState('')
+  const { user } = useAuth()
   const {
     register,
     handleSubmit,
@@ -41,7 +43,7 @@ export default function NewRecipe() {
   })
 
   useEffect(() => {
-    ;(async () => {
+    async function getCuisines() {
       const cuisinesArr = []
 
       await db
@@ -50,36 +52,47 @@ export default function NewRecipe() {
         .then((docs) => docs.forEach((doc) => cuisinesArr.push(doc.data())))
 
       setCuisines(cuisinesArr)
-    })()
+    }
+    getCuisines()
   }, [])
 
   // function getImage() {
+  // if(user) {
   //   const storageRef = firebase.storage().ref()
-  //   const listRef = storageRef.child('images/')
+  //   const listRef = storageRef.child('covers/${user.id}')
 
   //   listRef.listAll().then(res => {
   //     console.log('res', res)
   //     res.items.forEach(item => console.log(item))
   //   })
   // }
+  // }
 
   async function uploadImage(imageFile: File) {
-    const ref = firebase.storage().ref()
-    const childRef = ref.child(`covers/${imageFile.name}`)
+    if (user) {
+      const ref = firebase.storage().ref()
+      const childRef = ref.child(`covers/${user.uid}/${imageFile.name}`)
 
-    await childRef.put(imageFile)
+      await childRef.put(imageFile)
+    }
   }
 
   async function createRecipe(formValues: FormData, imageName: string) {
-    db.collection('recipes').add({
-      title: formValues.title,
-      ingredient: formValues.ingredient,
-      otherIngredients: formValues.otherIngredients ?? null,
-      link: formValues.link ?? null,
-      method: formValues.method,
-      cuisine: formValues.cuisine,
-      coverImage: imageName
-    })
+    if (user) {
+      await db
+        .collection('users')
+        .doc(user.uid)
+        .collection('recipes')
+        .add({
+          title: formValues.title,
+          ingredient: formValues.ingredient,
+          otherIngredients: formValues.otherIngredients ?? null,
+          link: formValues.link ?? null,
+          method: formValues.method,
+          cuisine: formValues.cuisine,
+          coverImage: imageName
+        })
+    }
   }
 
   async function submitForm(values: FormData) {
@@ -296,10 +309,6 @@ const ButtonRemove = styled.button`
     padding: 0.8em 0.5em;
     margin-left: 0.5em;
   `}
-`
-
-const StyledInput = styled.input`
-  display: none;
 `
 
 const Line = styled.div`
