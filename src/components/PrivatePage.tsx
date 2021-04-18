@@ -39,4 +39,8 @@ const Main = styled.main`
   overflow-y: scroll;
   position: relative;
   height: calc(100vh - 3.125em);
+
+  ${mediaQueries.md`
+    height: 100vh;
+  `}
 `

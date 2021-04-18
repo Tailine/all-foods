@@ -1,4 +1,4 @@
-import 'styled-components';
+import 'styled-components'
 
 // and extend them!
 declare module 'styled-components' {
@@ -12,17 +12,16 @@ declare module 'styled-components' {
       lightGray: string
       mediumGray: string
       error: string
-    },
+    }
     breakpoints: {
       xs: string
       sm: string
       md: string
       lg: string
-    },
+    }
     fonts: {
       roboto: string
       sriracha: string
     }
-
   }
 }

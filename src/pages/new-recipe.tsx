@@ -3,13 +3,13 @@ import { useFieldArray, useForm } from 'react-hook-form'
 import { FormField } from 'src/components/FormField'
 import { FormInput } from 'src/components/FormInput'
 import PrivatePage from 'src/components/PrivatePage'
-import { Heading, ErrorMessage, Input, TextArea } from 'src/styles/shared'
+import { Heading, ErrorMessage, TextArea, Select } from 'src/styles/shared'
 import styled, { css } from 'styled-components'
-import plus from 'public/images/plus.svg'
 import db from 'config/db'
 import { Cuisine } from 'src/helpers/types/api'
 import firebase from 'config/firebase'
 import { useAuth } from 'src/hooks/useAuth'
+import { mediaQueries } from 'src/styles/themes/mediaQueries'
 
 type FormData = {
   title: string
@@ -27,14 +27,7 @@ export default function NewRecipe() {
   const [cuisines, setCuisines] = useState<Cuisine[]>([])
   const [imageUrl, setImageUrl] = useState('')
   const { user } = useAuth()
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    getValues,
-    errors,
-    control
-  } = useForm<FormData>({
+  const { register, handleSubmit, errors, control } = useForm<FormData>({
     reValidateMode: 'onSubmit'
   })
   const { fields, append, remove } = useFieldArray({
@@ -114,54 +107,26 @@ export default function NewRecipe() {
     }
   }
 
-  const selectImageMsg = `${imageUrl ? 'update' : 'select'} cover image`
-
   return (
     <PrivatePage>
-      <section>
-        <Heading>New Recipes</Heading>
-        <form onSubmit={handleSubmit(submitForm)}>
+      <Wrapper>
+        <header>
+          <Heading>New Recipes</Heading>
+          <ButtonSubmit form="createForm" type="submit">
+            create
+          </ButtonSubmit>
+        </header>
+        <Form id="createForm" onSubmit={handleSubmit(submitForm)}>
           <FormField label="Title" htmlFor="title">
             <FormInput
               name="title"
               ref={register({ required: true })}
               placeholder="Ex: Turkey Tetrazzini"
             />
+            {errors.title && (
+              <ErrorMessage>This field is required</ErrorMessage>
+            )}
           </FormField>
-          {errors.title && <ErrorMessage>This field is required</ErrorMessage>}
-
-          <FormField label="Ingredients" htmlFor="ingredient">
-            <FormInput
-              name="ingredient"
-              ref={register({ required: true })}
-              placeholder="Ex: Cheese"
-            />
-          </FormField>
-          {errors.ingredient && (
-            <ErrorMessage>This field is required</ErrorMessage>
-          )}
-
-          <AddButton type="button" onClick={append}>
-            add another ingredient
-          </AddButton>
-
-          <ul>
-            {fields.map((field, index) => (
-              <ListItem key={field.id}>
-                <FormInput
-                  name={`otherIngredients[${index}].name`}
-                  ref={register({ required: true })}
-                  defaultValue={field.value}
-                />
-                <ButtonRemove type="button" onClick={() => remove(index)}>
-                  <Line />
-                </ButtonRemove>
-              </ListItem>
-            ))}
-          </ul>
-          {errors.otherIngredients && (
-            <ErrorMessage>This field is required</ErrorMessage>
-          )}
 
           <FormField label="Link" htmlFor="link">
             <FormInput
@@ -171,33 +136,70 @@ export default function NewRecipe() {
             />
           </FormField>
 
+          <FormField label="Image" htmlFor="coverImage">
+            <ImageContainer hasImage={!!imageUrl}>
+              {imageUrl && <img src={imageUrl} alt="Selected cover image" />}
+            </ImageContainer>
+            <InputFile
+              ref={register({ required: true })}
+              onChange={(e) => handleImageInput(e.target.files)}
+              type="file"
+              id="coverImage"
+              name="coverImage"
+              accept="image/png"
+            />
+            {errors.coverImage && (
+              <ErrorMessage>This field is required</ErrorMessage>
+            )}
+          </FormField>
+
           <FormField label="Method" htmlFor="title">
             <TextArea
               name="method"
               ref={register({ required: true })}
               placeholder="Ex: Cut the onion..."
-              rows={5}
             />
+            {errors.method && (
+              <ErrorMessage>This field is required</ErrorMessage>
+            )}
           </FormField>
-          {errors.method && <ErrorMessage>This field is required</ErrorMessage>}
 
-          <FormField label="Image" htmlFor="coverImage">
-            <ImageContainer hasImage={!!imageUrl}>
-              <button>{selectImageMsg}</button>
-              <input
+          <div>
+            <FormField label="Ingredients" htmlFor="ingredient">
+              <FormInput
+                name="ingredient"
                 ref={register({ required: true })}
-                onChange={(e) => handleImageInput(e.target.files)}
-                type="file"
-                id="coverImage"
-                name="coverImage"
-                accept="image/png"
+                placeholder="Ex: Cheese"
               />
-              {imageUrl && <img src={imageUrl} alt="Selected cover image" />}
-            </ImageContainer>
-          </FormField>
+              {errors.ingredient && (
+                <ErrorMessage>This field is required</ErrorMessage>
+              )}
+            </FormField>
+
+            <AddButton type="button" onClick={append}>
+              add another ingredient
+            </AddButton>
+            <ul>
+              {fields.map((field, index) => (
+                <ListItem key={field.id}>
+                  <FormInput
+                    name={`otherIngredients[${index}].name`}
+                    ref={register({ required: true })}
+                    defaultValue={field.value}
+                  />
+                  <ButtonRemove type="button" onClick={() => remove(index)}>
+                    <Line />
+                  </ButtonRemove>
+                </ListItem>
+              ))}
+            </ul>
+            {errors.otherIngredients && (
+              <ErrorMessage>This field is required</ErrorMessage>
+            )}
+          </div>
 
           <FormField label="Cuisine" htmlFor="cuisine">
-            <select
+            <Select
               name="cuisine"
               ref={register({
                 required: true,
@@ -213,15 +215,50 @@ export default function NewRecipe() {
                   {cuisine.name}
                 </option>
               ))}
-            </select>
+            </Select>
+            {errors.cuisine && (
+              <ErrorMessage>This field is required</ErrorMessage>
+            )}
           </FormField>
-
           <ButtonSubmit type="submit">create</ButtonSubmit>
-        </form>
-      </section>
+        </Form>
+      </Wrapper>
     </PrivatePage>
   )
 }
+
+const Wrapper = styled.section`
+  ${({ theme }) => css`
+    max-width: 1000px;
+    margin: 0 auto;
+
+    ${mediaQueries.md`
+      padding: 0 2em 2em;
+    `}
+
+    header {
+      margin-bottom: 1em;
+      button {
+        display: none;
+      }
+
+      @media (min-width: ${theme.breakpoints.sm}) {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: sticky;
+        top: -2em;
+        background: ${theme.colors.white};
+        padding: 2em 0;
+        
+        button {
+          display: inline-block;
+          width: 10em;
+          margin-top: 0;
+        }
+      }
+  `}
+`
 
 const centerAbsolutePosition = css`
   margin-left: auto;
@@ -229,12 +266,30 @@ const centerAbsolutePosition = css`
   left: 0;
   right: 0;
 `
+
+const Form = styled.form`
+  ${mediaQueries.sm`
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 2em;
+
+    button[type='submit'] {
+      display: none;
+    }
+  `}
+`
+
+const InputFile = styled.input`
+  cursor: pointer;
+  margin-top: 1em;
+`
+
 const ImageContainer = styled.div<{ hasImage: boolean }>`
   ${({ theme, hasImage }) => css`
     border: 2px dashed ${theme.colors.blueishGray};
     border-radius: 4px;
     padding: 1em;
-    height: 100px;
+    height: 7em;
     margin: 0 auto;
     width: 100%;
     position: relative;
@@ -253,13 +308,6 @@ const ImageContainer = styled.div<{ hasImage: boolean }>`
       position: absolute;
       text-align: center;
       background-color: ${hasImage ? theme.colors.yellow : 'transparent'};
-    }
-
-    input[type='file'] {
-      opacity: 0;
-      position: absolute;
-      cursor: pointer;
-      ${centerAbsolutePosition};
     }
   `}
 `
