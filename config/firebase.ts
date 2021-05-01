@@ -10,14 +10,15 @@ const config = {
   storageBucket: process.env.NEXT_PUBLIC_STORAGE_BUCKET,
   messagingSenderId: process.env.NEXT_PUBLIC_MESSAGING_SENDER_ID,
   appId: process.env.NEXT_PUBLIC_APP_ID
-};
+}
 
 try {
-  firebase.initializeApp(config);
+  firebase.initializeApp(config)
+  firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
 } catch (err) {
   if (!/already exists/.test(err.message)) {
-    console.error("Firebase Error:", err);
+    console.error('Firebase Error:', err)
   }
 }
 
-export default firebase;
+export default firebase

@@ -1,15 +1,16 @@
 import { useState, useEffect } from 'react'
 import { useFieldArray, useForm } from 'react-hook-form'
-import { FormField } from 'src/components/FormField'
-import { FormInput } from 'src/components/FormInput'
-import PrivatePage from 'src/components/PrivatePage'
-import { Heading, ErrorMessage, TextArea, Select } from 'src/styles/shared'
+import { FormField } from 'components/FormField'
+import { FormInput } from 'components/FormInput'
+import { Heading, ErrorMessage, TextArea, Select } from 'styles/shared'
 import styled, { css } from 'styled-components'
 import db from 'config/db'
-import { Cuisine } from 'src/helpers/types/api'
+import { Cuisine } from 'helpers/types/api'
 import firebase from 'config/firebase'
-import { useAuth } from 'src/hooks/useAuth'
-import { mediaQueries } from 'src/styles/themes/mediaQueries'
+import { useAuth } from 'hooks/useAuth'
+import { Layout } from 'components/Layout'
+import { GetServerSidePropsContext } from 'next'
+import verifyUserAuthStatus from 'helpers/verifyUserAuthStatus'
 
 type FormData = {
   title: string
@@ -108,155 +109,144 @@ export default function NewRecipe() {
   }
 
   return (
-    <PrivatePage>
-      <Wrapper>
-        <header>
-          <Heading>New Recipes</Heading>
-          <ButtonSubmit form="createForm" type="submit">
-            create
-          </ButtonSubmit>
-        </header>
-        <Form id="createForm" onSubmit={handleSubmit(submitForm)}>
-          <FormField label="Title" htmlFor="title">
+    <Layout>
+      <Header>
+        <Heading>New Recipes</Heading>
+        <ButtonSubmit form="createForm" type="submit">
+          create
+        </ButtonSubmit>
+      </Header>
+      <Form id="createForm" onSubmit={handleSubmit(submitForm)}>
+        <FormField label="Title" htmlFor="title">
+          <FormInput
+            name="title"
+            ref={register({ required: true })}
+            placeholder="Ex: Turkey Tetrazzini"
+          />
+          {errors.title && <ErrorMessage>This field is required</ErrorMessage>}
+        </FormField>
+
+        <FormField label="Link" htmlFor="link">
+          <FormInput
+            name="link"
+            ref={register}
+            placeholder="Ex: https://www.allrecipes.com/recipes/16817/main..."
+          />
+        </FormField>
+
+        <FormField label="Image" htmlFor="coverImage">
+          <ImageContainer hasImage={!!imageUrl}>
+            {imageUrl && <img src={imageUrl} alt="Selected cover image" />}
+          </ImageContainer>
+          <InputFile
+            ref={register({ required: true })}
+            onChange={(e) => handleImageInput(e.target.files)}
+            type="file"
+            id="coverImage"
+            name="coverImage"
+            accept="image/png"
+          />
+          {errors.coverImage && (
+            <ErrorMessage>This field is required</ErrorMessage>
+          )}
+        </FormField>
+
+        <FormField label="Method" htmlFor="title">
+          <TextArea
+            name="method"
+            ref={register({ required: true })}
+            placeholder="Ex: Cut the onion..."
+          />
+          {errors.method && <ErrorMessage>This field is required</ErrorMessage>}
+        </FormField>
+
+        <div>
+          <FormField label="Ingredients" htmlFor="ingredient">
             <FormInput
-              name="title"
+              name="ingredient"
               ref={register({ required: true })}
-              placeholder="Ex: Turkey Tetrazzini"
+              placeholder="Ex: Cheese"
             />
-            {errors.title && (
+            {errors.ingredient && (
               <ErrorMessage>This field is required</ErrorMessage>
             )}
           </FormField>
 
-          <FormField label="Link" htmlFor="link">
-            <FormInput
-              name="link"
-              ref={register}
-              placeholder="Ex: https://www.allrecipes.com/recipes/16817/main..."
-            />
-          </FormField>
+          <AddButton type="button" onClick={append}>
+            add another ingredient
+          </AddButton>
+          <ul>
+            {fields.map((field, index) => (
+              <ListItem key={field.id}>
+                <FormInput
+                  name={`otherIngredients[${index}].name`}
+                  ref={register({ required: true })}
+                  defaultValue={field.value}
+                />
+                <ButtonRemove type="button" onClick={() => remove(index)}>
+                  <Line />
+                </ButtonRemove>
+              </ListItem>
+            ))}
+          </ul>
+          {errors.otherIngredients && (
+            <ErrorMessage>This field is required</ErrorMessage>
+          )}
+        </div>
 
-          <FormField label="Image" htmlFor="coverImage">
-            <ImageContainer hasImage={!!imageUrl}>
-              {imageUrl && <img src={imageUrl} alt="Selected cover image" />}
-            </ImageContainer>
-            <InputFile
-              ref={register({ required: true })}
-              onChange={(e) => handleImageInput(e.target.files)}
-              type="file"
-              id="coverImage"
-              name="coverImage"
-              accept="image/png"
-            />
-            {errors.coverImage && (
-              <ErrorMessage>This field is required</ErrorMessage>
-            )}
-          </FormField>
-
-          <FormField label="Method" htmlFor="title">
-            <TextArea
-              name="method"
-              ref={register({ required: true })}
-              placeholder="Ex: Cut the onion..."
-            />
-            {errors.method && (
-              <ErrorMessage>This field is required</ErrorMessage>
-            )}
-          </FormField>
-
-          <div>
-            <FormField label="Ingredients" htmlFor="ingredient">
-              <FormInput
-                name="ingredient"
-                ref={register({ required: true })}
-                placeholder="Ex: Cheese"
-              />
-              {errors.ingredient && (
-                <ErrorMessage>This field is required</ErrorMessage>
-              )}
-            </FormField>
-
-            <AddButton type="button" onClick={append}>
-              add another ingredient
-            </AddButton>
-            <ul>
-              {fields.map((field, index) => (
-                <ListItem key={field.id}>
-                  <FormInput
-                    name={`otherIngredients[${index}].name`}
-                    ref={register({ required: true })}
-                    defaultValue={field.value}
-                  />
-                  <ButtonRemove type="button" onClick={() => remove(index)}>
-                    <Line />
-                  </ButtonRemove>
-                </ListItem>
-              ))}
-            </ul>
-            {errors.otherIngredients && (
-              <ErrorMessage>This field is required</ErrorMessage>
-            )}
-          </div>
-
-          <FormField label="Cuisine" htmlFor="cuisine">
-            <Select
-              name="cuisine"
-              ref={register({
-                required: true,
-                validate: (value) => value !== 'none'
-              })}
-              placeholder=""
-            >
-              <option key="none" value="none">
-                Select a cuisine
+        <FormField label="Cuisine" htmlFor="cuisine">
+          <Select
+            name="cuisine"
+            ref={register({
+              required: true,
+              validate: (value) => value !== 'none'
+            })}
+          >
+            <option key="none" value="none">
+              Select a cuisine
+            </option>
+            {cuisines.map((cuisine) => (
+              <option key={cuisine.id} value={cuisine.id}>
+                {cuisine.name}
               </option>
-              {cuisines.map((cuisine) => (
-                <option key={cuisine.id} value={cuisine.id}>
-                  {cuisine.name}
-                </option>
-              ))}
-            </Select>
-            {errors.cuisine && (
-              <ErrorMessage>This field is required</ErrorMessage>
-            )}
-          </FormField>
-          <ButtonSubmit type="submit">create</ButtonSubmit>
-        </Form>
-      </Wrapper>
-    </PrivatePage>
+            ))}
+          </Select>
+          {errors.cuisine && (
+            <ErrorMessage>This field is required</ErrorMessage>
+          )}
+        </FormField>
+        <ButtonSubmit type="submit">create</ButtonSubmit>
+      </Form>
+    </Layout>
   )
 }
 
-const Wrapper = styled.section`
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  return verifyUserAuthStatus(context)
+}
+
+const Header = styled.header`
   ${({ theme }) => css`
-    max-width: 1000px;
-    margin: 0 auto;
+    margin-bottom: 1em;
+    button {
+      display: none;
+    }
 
-    ${mediaQueries.md`
-      padding: 0 2em 2em;
-    `}
+    @media (min-width: ${theme.breakpoints.sm}) {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: -2em;
+      background: ${theme.colors.white};
+      padding: 2em 0;
 
-    header {
-      margin-bottom: 1em;
       button {
-        display: none;
+        display: inline-block;
+        width: 10em;
+        margin-top: 0;
       }
-
-      @media (min-width: ${theme.breakpoints.sm}) {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        position: sticky;
-        top: -2em;
-        background: ${theme.colors.white};
-        padding: 2em 0;
-        
-        button {
-          display: inline-block;
-          width: 10em;
-          margin-top: 0;
-        }
-      }
+    }
   `}
 `
 
@@ -268,13 +258,15 @@ const centerAbsolutePosition = css`
 `
 
 const Form = styled.form`
-  ${mediaQueries.sm`
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-gap: 2em;
+  ${({ theme }) => css`
+    @media (min-width: ${theme.breakpoints.sm}) {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-gap: 2em;
 
-    button[type='submit'] {
-      display: none;
+      button[type='submit'] {
+        display: none;
+      }
     }
   `}
 `

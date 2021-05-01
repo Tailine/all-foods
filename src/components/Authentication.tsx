@@ -1,10 +1,9 @@
 import Image from 'next/image'
 import { ReactNode } from 'react'
-import styled from 'styled-components'
-import colors from '../styles/themes/colors'
+import styled, { css } from 'styled-components'
+import colors from 'styles/themes/colors'
 import logo from 'public/images/red-logo.svg'
-import { mediaQueries } from '../styles/themes/mediaQueries'
-import fonts from 'src/styles/themes/fonts'
+import fonts from 'styles/themes/fonts'
 
 type Props = {
   children: ReactNode
@@ -27,38 +26,40 @@ export function Authentication({ children, title }: Props) {
 }
 
 const Section = styled.section`
-  height: 100vh;
-  width: 100vw;
-  background-color: ${colors.red};
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  .container {
-    background-color: ${colors.white};
-    height: 90%;
-    width: 90%;
-    padding: 1.5em;
-
+  ${({ theme }) => css`
+    height: 100vh;
+    width: 100vw;
+    background-color: ${colors.red};
     display: flex;
-    flex-direction: column;
     justify-content: center;
-    max-width: 400px;
+    align-items: center;
 
-    ${mediaQueries.sm`
-      height: 70%;
-      width: 40%;
-      padding: 2em;
-    `}
+    .container {
+      background-color: ${colors.white};
+      height: 90%;
+      width: 90%;
+      padding: 1.5em;
 
-    ${mediaQueries.md`
-      width: 30%;
-    `}
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      max-width: 400px;
 
-    ${mediaQueries.lg`
-      padding: 2em 3em;
-    `}
-  }
+      @media (min-width: ${theme.breakpoints.sm}) {
+        height: 70%;
+        width: 40%;
+        padding: 2em;
+      }
+
+      @media (min-width: ${theme.breakpoints.md}) {
+        width: 30%;
+      }
+
+      @media (min-width: ${theme.breakpoints.lg}) {
+        padding: 2em 3em;
+      }
+    }
+  `}
 `
 
 const LogoSection = styled.div`

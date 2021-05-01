@@ -1,5 +1,5 @@
 import { ButtonHTMLAttributes, DetailedHTMLProps, RefObject } from 'react'
-import colors from 'src/styles/themes/colors'
+import colors from 'styles/themes/colors'
 import styled from 'styled-components'
 import fonts from '../styles/themes/fonts'
 

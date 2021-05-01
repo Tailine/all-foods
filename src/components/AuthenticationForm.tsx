@@ -4,10 +4,10 @@ import { FormInput } from './FormInput'
 import { InputPassword } from '../components/InputPassword'
 import styled from 'styled-components'
 import { Button } from './Button'
-import colors from 'src/styles/themes/colors'
+import colors from 'styles/themes/colors'
 import { ReactNode } from 'react'
-import { AuthFormFields } from 'src/helpers/types/interface'
-import { ErrorMessage } from 'src/styles/shared'
+import { AuthFormFields } from 'helpers/types/interface'
+import { ErrorMessage } from 'styles/shared'
 
 type AuthenticationFormProps = {
   buttonText: string

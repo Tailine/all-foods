@@ -3,6 +3,7 @@ import Link from 'next/link'
 import cookBook from 'public/images/cook-book.svg'
 import recipes from 'public/images/recipes.svg'
 import plus from 'public/images/plus.svg'
+import { useAuth } from 'hooks/useAuth'
 
 type SidebarProps = {
   currentPathName: string
