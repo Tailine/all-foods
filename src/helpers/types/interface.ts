@@ -5,7 +5,16 @@ export type InputProps = Omit<
   'ref'
 > & { hasError?: boolean }
 
-export interface AuthFormFields {
+export type AuthFormFields = {
   email: string
   password: string
+}
+
+export type Recipe = {
+  coverImage: string
+  cuisine: string
+  ingredients: string[]
+  repcipeLink: string
+  method: string
+  title: string
 }

@@ -1,89 +1,59 @@
-import firebase from '../../config/firebase'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { GetServerSidePropsContext } from 'next'
 import { useAuth } from 'hooks/useAuth'
 import { Layout } from 'components/Layout'
 import verifyUserAuthStatus from 'helpers/verifyUserAuthStatus'
+import db from 'config/db'
+import { Recipe as RecipeApi } from 'helpers/types/api'
+import { Recipe } from 'helpers/types/interface'
 
 export default function Recipes() {
-  const { signOut } = useAuth()
+  const { signOut, user } = useAuth()
+  const [recipes, setRecipes] = useState<Recipe[]>([])
+
+  useEffect(() => {
+    console.log('GET RECIPES')
+    getRecipes()
+  }, [])
+
+  async function getRecipes() {
+    console.log('USER', user)
+    const initialRecipes: Recipe[] = []
+    if (user) {
+      db.collection('users')
+        .doc(user.uid)
+        .collection('recipes')
+        .get()
+        .then((docs) =>
+          docs.forEach((doc) => {
+            const {
+              link,
+              ingredient,
+              otherIngridients,
+              ...rest
+            } = doc.data() as RecipeApi
+
+            initialRecipes.push({
+              ...rest,
+              repcipeLink: link,
+              ingredients: [
+                ingredient,
+                ...(otherIngridients ?? []).map(
+                  (ingredientName) => ingredientName.name
+                )
+              ]
+            })
+            setRecipes(initialRecipes)
+          })
+        )
+    }
+  }
 
   return (
     <Layout>
       <h1>Recipes</h1>
+      {/* botão temporário */}
       <button onClick={signOut}>Sair</button>
-      <p>
-        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatem quo
-        dolorum nostrum nihil, ad omnis animi quam doloremque ipsa sed tempore
-        minus eveniet reprehenderit reiciendis. Odit molestias ut voluptate
-        voluptates.Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-        Voluptatem quo dolorum nostrum nihil, ad omnis animi quam doloremque
-        ipsa sed tempore minus eveniet reprehenderit reiciendis. Odit molestias
-        ut voluptate voluptates.
-      </p>
-      <p>
-        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatem quo
-        dolorum nostrum nihil, ad omnis animi quam doloremque ipsa sed tempore
-        minus eveniet reprehenderit reiciendis. Odit molestias ut voluptate
-        voluptates.Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-        Voluptatem quo dolorum nostrum nihil, ad omnis animi quam doloremque
-        ipsa sed tempore minus eveniet reprehenderit reiciendis. Odit molestias
-        ut voluptate voluptates.
-      </p>
-      <p>
-        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatem quo
-        dolorum nostrum nihil, ad omnis animi quam doloremque ipsa sed tempore
-        minus eveniet reprehenderit reiciendis. Odit molestias ut voluptate
-        voluptates.Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-        Voluptatem quo dolorum nostrum nihil, ad omnis animi quam doloremque
-        ipsa sed tempore minus eveniet reprehenderit reiciendis. Odit molestias
-        ut voluptate voluptates.
-      </p>
-      <p>
-        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatem quo
-        dolorum nostrum nihil, ad omnis animi quam doloremque ipsa sed tempore
-        minus eveniet reprehenderit reiciendis. Odit molestias ut voluptate
-        voluptates.Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-        Voluptatem quo dolorum nostrum nihil, ad omnis animi quam doloremque
-        ipsa sed tempore minus eveniet reprehenderit reiciendis. Odit molestias
-        ut voluptate voluptates.
-      </p>
-      <p>
-        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatem quo
-        dolorum nostrum nihil, ad omnis animi quam doloremque ipsa sed tempore
-        minus eveniet reprehenderit reiciendis. Odit molestias ut voluptate
-        voluptates.Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-        Voluptatem quo dolorum nostrum nihil, ad omnis animi quam doloremque
-        ipsa sed tempore minus eveniet reprehenderit reiciendis. Odit molestias
-        ut voluptate voluptates.
-      </p>
-      <p>
-        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatem quo
-        dolorum nostrum nihil, ad omnis animi quam doloremque ipsa sed tempore
-        minus eveniet reprehenderit reiciendis. Odit molestias ut voluptate
-        voluptates.Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-        Voluptatem quo dolorum nostrum nihil, ad omnis animi quam doloremque
-        ipsa sed tempore minus eveniet reprehenderit reiciendis. Odit molestias
-        ut voluptate voluptates.
-      </p>
-      <p>
-        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatem quo
-        dolorum nostrum nihil, ad omnis animi quam doloremque ipsa sed tempore
-        minus eveniet reprehenderit reiciendis. Odit molestias ut voluptate
-        voluptates.Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-        Voluptatem quo dolorum nostrum nihil, ad omnis animi quam doloremque
-        ipsa sed tempore minus eveniet reprehenderit reiciendis. Odit molestias
-        ut voluptate voluptates.
-      </p>
-      <p>
-        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatem quo
-        dolorum nostrum nihil, ad omnis animi quam doloremque ipsa sed tempore
-        minus eveniet reprehenderit reiciendis. Odit molestias ut voluptate
-        voluptates.Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-        Voluptatem quo dolorum nostrum nihil, ad omnis animi quam doloremque
-        ipsa sed tempore minus eveniet reprehenderit reiciendis. Odit molestias
-        ut voluptate voluptates.
-      </p>
     </Layout>
   )
 }
