@@ -24,7 +24,11 @@ type FormData = {
   coverImage: FileList
 }
 
-export default function NewRecipe() {
+type NewRecipeProps = {
+  userId: string
+}
+
+export default function NewRecipe({ userId }: NewRecipeProps) {
   const [cuisines, setCuisines] = useState<Cuisine[]>([])
   const [imageUrl, setImageUrl] = useState('')
   const { user } = useAuth()
@@ -65,7 +69,7 @@ export default function NewRecipe() {
   async function uploadImage(imageFile: File) {
     if (user) {
       const ref = firebase.storage().ref()
-      const childRef = ref.child(`covers/${user.uid}/${imageFile.name}`)
+      const childRef = ref.child(`covers/${userId}/${imageFile.name}`)
 
       await childRef.put(imageFile)
     }
@@ -75,7 +79,7 @@ export default function NewRecipe() {
     if (user) {
       await db
         .collection('users')
-        .doc(user.uid)
+        .doc(userId)
         .collection('recipes')
         .add({
           title: formValues.title,

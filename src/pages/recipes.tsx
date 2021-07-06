@@ -7,24 +7,26 @@ import db from 'config/db'
 import { Recipe as RecipeApi } from 'helpers/types/api'
 import { Recipe } from 'helpers/types/interface'
 
-export default function Recipes() {
-  const { signOut, user } = useAuth()
+type RecipesProps = {
+  userId: string
+}
+
+export default function Recipes({ userId }: RecipesProps) {
+  const { signOut } = useAuth()
   const [recipes, setRecipes] = useState<Recipe[]>([])
 
   useEffect(() => {
-    console.log('GET RECIPES')
     getRecipes()
   }, [])
 
   async function getRecipes() {
-    console.log('USER', user)
     const initialRecipes: Recipe[] = []
-    if (user) {
+    if (userId) {
       db.collection('users')
-        .doc(user.uid)
+        .doc(userId)
         .collection('recipes')
         .get()
-        .then((docs) =>
+        .then((docs) => {
           docs.forEach((doc) => {
             const {
               link,
@@ -43,9 +45,9 @@ export default function Recipes() {
                 )
               ]
             })
-            setRecipes(initialRecipes)
           })
-        )
+          setRecipes(initialRecipes)
+        })
     }
   }
 

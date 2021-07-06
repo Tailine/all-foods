@@ -52,7 +52,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   async function signIn(email: string, password: string) {
     try {
-      await firebase.auth().signInWithEmailAndPassword(email, password)
+      const { user } = await firebase
+        .auth()
+        .signInWithEmailAndPassword(email, password)
+
+      setUser(user)
     } catch (err) {
       console.error(err)
     }

@@ -7,10 +7,13 @@ export default async function verifyUserAuthStatus(
 ) {
   try {
     const cookies = nookies.get(context)
-    await firebaseAdmin.auth().verifyIdToken(cookies.token)
-
+    console.log({ context })
+    const resp = await firebaseAdmin.auth().verifyIdToken(cookies.token)
+    console.log('resp', resp)
     return {
-      props: {}
+      props: {
+        userId: resp.uid
+      }
     }
   } catch (err) {
     return {
