@@ -4,7 +4,7 @@ export type Cuisine = {
 }
 
 export type Recipe = {
-  coverImage: string
+  coverImage: any
   cuisine: string
   ingredient: string
   otherIngridients?: { name: string }[]
