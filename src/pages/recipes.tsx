@@ -16,38 +16,10 @@ type RecipesProps = {
 export default function Recipes({ userId }: RecipesProps) {
   const { signOut } = useAuth()
   const [recipes, setRecipes] = useState<Recipe[]>([])
-  const [newRecipes, setNewRecipes] = useState<Recipe[]>([])
 
   useEffect(() => {
     getRecipes()
   }, [])
-
-  // useEffect(() => {
-  //   async function test() {
-  //     const initialRecipes: Recipe[] = []
-
-  //     for (const rec of recipes) {
-  //       const { link, ingredient, otherIngridients, coverImage, ...rest } = rec
-
-  //       const imagePath = await getImageFromFirebase(userId, coverImage)
-
-  //       initialRecipes.push({
-  //         ...rest,
-  //         repcipeLink: link,
-  //         coverImage: imagePath,
-  //         ingredients: [
-  //           ingredient,
-  //           ...(otherIngridients ?? []).map(
-  //             (ingredientName) => ingredientName.name
-  //           )
-  //         ]
-  //       })
-  //     }
-  //     setNewRecipes(initialRecipes)
-  //   }
-
-  //   test()
-  // }, [recipes])
 
   async function getRecipes() {
     if (userId) {
@@ -56,7 +28,6 @@ export default function Recipes({ userId }: RecipesProps) {
         .doc(userId)
         .collection('recipes')
         .get()
-
       const userRecipes = await Promise.all(
         recipesResponse.docs.map(async (recipeData) => {
           const {
@@ -66,9 +37,7 @@ export default function Recipes({ userId }: RecipesProps) {
             coverImage,
             ...rest
           } = recipeData.data() as RecipeApi
-
           const imageUrl = await getImageFromFirebase(userId, coverImage)
-
           return {
             ...rest,
             repcipeLink: link,
@@ -82,7 +51,6 @@ export default function Recipes({ userId }: RecipesProps) {
           }
         })
       )
-
       setRecipes(userRecipes)
     }
   }
@@ -92,17 +60,12 @@ export default function Recipes({ userId }: RecipesProps) {
       <h1>Recipes</h1>
       {recipes.map((recipe, index) => {
         return (
-          <div
+          <CardRecipe
             key={`${recipe.coverImage}${index}`}
-            style={{ background: 'red', padding: '1em', margin: '1em 0' }}
-          >
-            <CardRecipe
-              key={recipe.coverImage}
-              title={recipe.title}
-              cuisine={recipe.cuisine}
-              imageSrc={recipe.coverImage}
-            />
-          </div>
+            title={recipe.title}
+            cuisine={recipe.cuisine}
+            imageSrc={recipe.coverImage}
+          />
         )
       })}
       {/* botão temporário */}

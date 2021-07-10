@@ -1,3 +1,4 @@
+import { DotsVerticalRounded } from '@styled-icons/boxicons-regular/DotsVerticalRounded'
 import * as S from './styles'
 
 type CardRecipeProps = {
@@ -16,7 +17,9 @@ export function CardRecipe({ imageSrc, cuisine, title }: CardRecipeProps) {
       <S.Content>
         <div className="titleArea">
           <h2>{title}</h2>
-          <button>edit</button>
+          <S.IconWrapper>
+            <DotsVerticalRounded color="#B6BCC6" />
+          </S.IconWrapper>
         </div>
         <p>{cuisine}</p>
       </S.Content>
